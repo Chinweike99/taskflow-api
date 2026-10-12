@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -5,6 +6,16 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Verify Environment') {
+            steps {
+                sh '''
+                    node --version
+                    npm --version
+                    docker --version
+                '''
             }
         }
 
@@ -22,7 +33,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'npm test -- --runInBand'
+                sh 'npm test'
             }
         }
 
